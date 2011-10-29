@@ -8,6 +8,7 @@ class End {
   private:
     int _setTime;
     int _preamble;
+
     // to record number of retransmission, _index = -1 means success
     // _index = -2 means abort
     int _index;
