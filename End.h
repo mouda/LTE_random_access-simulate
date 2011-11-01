@@ -12,4 +12,4 @@ class End {
     // to record number of retransmission, _index = -1 means success
     // _index = -2 means abort
     int _index;
-}
+};
