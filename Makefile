@@ -8,4 +8,4 @@ main.o:End.h End.cpp
 	${CC} ${CFLAGS} End.cpp End.h -c
 
 clean:
-	rm -f *.o
+	rm -f *.o *.gch simulate
