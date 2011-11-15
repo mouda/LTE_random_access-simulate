@@ -9,6 +9,12 @@ extern int _time;
 extern int preamble[preambleNum];
 extern int _count;
 extern int setProbablity(int);
+extern int _access;
+/*
+extern int finish_time[100];
+extern int access_time;
+extern int collision_time;
+*/
 
 void End::setpreamble()
 {
@@ -16,6 +22,7 @@ void End::setpreamble()
   else {
     _preamble = rand()%preambleNum;
     preamble[_preamble]++;
+    _access++;
   }
 }
 void End::responseForOnlyOne()
@@ -65,9 +72,11 @@ void End::id()
   if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
     _count++;
+    _finishTime = _time;
   }
   else{
-	_setTime += _CountCeil(firstWaiting + secondWaiting + rand()%RandomBackoffIndex);
+    _collisionTime++;
+    _setTime += _CountCeil(firstWaiting + secondWaiting + rand()%RandomBackoffIndex);
     _index++;
     if ( _index > MAX){
       _setTime = -2;

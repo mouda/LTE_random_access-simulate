@@ -4,20 +4,16 @@
 #include "End.h"
 #include "main.h"
 using namespace std;
-
-
-
-//lynn is here   jas try
-//hello world~
-
-//for parameter measuring the efficiency!!!
+//for parameter measuring the changed!!!
 int finish_time[EndNum];
 int access_time = 0;
 int collision_time = 0;
-//
-int _time = 1;// the order of the subframe
+int _time = 1;                  // the order of the subframe
 int preamble[preambleNum] = {0};
-int _count = 0;//to record the tutle number of successful and abort End
+int _count = 0;                 //to record the tutle number of successful a
+                                //nd abort End
+int _access = 0;
+
 void responseForUseSamePreamble();
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
@@ -49,6 +45,19 @@ int main() {
 	    preamble[i] = 0;
 	}
     }
+    int _success = 0;
+    int totalCollision = 0;
+    cout << "==collision    finish==\n";
+    for (int j = 0; j < 100; j++) {
+	if (end[j].getSettime() == -1)
+	    _success++;
+	totalCollision += end[j].getCollision();
+	cout << end[j].getCollision() << "\t" << end[j].getFinish() << endl;
+    }
+    cout << "success number : \t" << _success << endl;
+    totalCollision /= 2;
+    cout << "Total collision : \t" << totalCollision << endl;
+    cout << "Total access : \t" << _access << endl;
 
     return 0;
 }
