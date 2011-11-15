@@ -5,7 +5,7 @@
 //extern int setProbablity(int);
 class End {
   public:
-    End(){ _setTime = 1; _preamble = 0; _index = 0; };
+    End(){ _setTime = 1; _preamble = 0; _index = 1; };
     void setpreamble();
     void responseForOnlyOne();
     void settime();
