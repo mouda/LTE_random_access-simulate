@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "End.h"
 using namespace std;
-//lynn is here
+//lynn is here   jas
 //hello world~
 //for parameter not changed!!
 const int Simulation_Time = 1000;
