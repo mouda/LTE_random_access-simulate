@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+End	End.h	/^    End(){ _setTime = 1; _preamble = 0; _index = 0; };$/;"	f	class:End
+End	End.h	/^class End {$/;"	c
+MAX	main.cpp	/^int MAX = 10;$/;"	v
+_index	End.h	/^    int _index;$/;"	m	class:End
+_preamble	End.h	/^    int _preamble;$/;"	m	class:End
+_setTime	End.h	/^    int _setTime;$/;"	m	class:End
+count	main.cpp	/^int count = 0;\/\/to record the tutle number of successful and abort End $/;"	v
+id	End.cpp	/^void End::id()$/;"	f	class:End
+preamnble	main.cpp	/^int preamnble[54];$/;"	v
+respForUseSamePreamble	main.cpp	/^void respForUseSamePreamble()$/;"	f
+responseForOnlyOne	End.cpp	/^void End::responseForOnlyOne()$/;"	f	class:End
+settime	End.cpp	/^void End::settime()$/;"	f	class:End

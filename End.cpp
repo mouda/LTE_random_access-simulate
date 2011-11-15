@@ -1,51 +1,62 @@
-void End::setpreamble( int time);
+#include "End.h"
+#include <math.h>
+#include <stdlib.h>
+extern int time;
+extern int preamble[54];
+extern int count;
+extern int MAX;
+extern int setProbablity(int);
+void End::setpreamble()
 {
-  if(_setTime != time) return; 
+  if(_setTime != time) return;
   else {
-    _preamble = rand(54); 
-    preamnble[_preamble-1]++;
+    _preamble = rand()%54;
+    preamble[_preamble]++;
   }
-
 }
-
 void End::responseForOnlyOne()
 {
-  if(preamnble[_preamble-1] == 1)
+  if(preamble[_preamble] == 1)
     //probability base on the retransmission
-    preamnble[_preamble-1] = setProbablity(_index);  
-
+    preamble[_preamble] = setProbablity(_index); 
 }
-
 void End::settime()
 {
-  if(preamnble[_preamble-1] == 1) id();// case for success
-  else if (preamnble[_preamble-1] > 1){
-    _setTime = [48+rand(20)+SOMETHING];
+  if(preamble[_preamble] == 1) id();// case for success
+  else if (preamble[_preamble] > 1){
+    int tmp = 48 + rand()%20;
+    if (tmp % 5 == 0) _setTime += tmp;
+    else _setTime += tmp / 5 * 5 + 5;
+    //_setTime = [48+rand(20)+SOMETHING];
     _index++;
-    if(index > MAX) {
+    if(_index > MAX) {
       _setTime = -2;
       count++;
     }
   }else {
-    _setTime = [8+rand(20)+SOMETHING];//set the next preamble transmission time
-    _index++
-    if(index > MAX){
+    int tmp2 = 8 + rand()%20;
+    if (tmp2 % 5 == 0) _setTime += tmp2;
+    else _setTime += tmp2/5*5 + 5;
+    //_setTime = [8+rand(20)+SOMETHING];//set the next preamble transmission time
+    _index++;
+    if(_index > MAX){
       count++;
       _setTime = -2;
     }
   }
 }
-
 void End::id()
 {
-  if ( setProbablity == 1 ) {
+  if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
     count++;
   }
   else{
-    _setTime = [48+rand(20)+SOMETHING];
-    index++;
-    if ( index > MAX){
+    int tmp = 48 + rand()%20;
+    if (tmp % 5 == 0) _setTime += tmp;
+    else _setTime += tmp / 5 * 5 + 5;
+    _index++;
+    if ( _index > MAX){
       _setTime = -2;
       count++;
     }
