@@ -1,14 +1,14 @@
 #include "End.h"
 #include <math.h>
 #include <stdlib.h>
-extern int time;
+extern int _time;
 extern int preamble[54];
 extern int _count;
 extern int MAX;
 extern int setProbablity(int);
 void End::setpreamble()
 {
-  if(_setTime != time) return;
+  if(_setTime != _time) return;
   else {
     _preamble = rand()%54;
     preamble[_preamble]++;
