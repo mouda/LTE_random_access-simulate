@@ -55,7 +55,6 @@ int main() {
 	cout << end[j].getCollision() << "\t" << end[j].getFinish() << endl;
     }
     cout << "success number : \t" << _success << endl;
-    totalCollision /= 2;
     cout << "Total collision : \t" << totalCollision << endl;
     cout << "Total access : \t" << _access << endl;
 
