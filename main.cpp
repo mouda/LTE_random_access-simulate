@@ -6,8 +6,8 @@ using namespace std;
 //lynn is here   jas try
 //hello world~
 //for parameter not changed!!
-const int Simulation_Time = 1000;
-const int MAX = 10;
+int Simulation_Time = 1000;
+int MAX = 10;
 //
 //for parameter measuring the efficiency!!!
 int finish_time[100];
