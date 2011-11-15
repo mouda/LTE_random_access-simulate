@@ -22,7 +22,8 @@ void responseForUseSamePreamble();//for
 int setProbablity( int );
 int main() {
   End end[100];
-  for(; _count < 100 ; _time +=5 ){
+ srand(time(NULL));
+ for(; _count < 100 ; _time +=5 ){
     for( int n = 0; n < 100; n++ )
       end[n].setpreamble();     
     responseForUseSamePreamble();
@@ -60,7 +61,6 @@ int setProbablity( int retransmit )
  int p1 = p*1000;
  int p2 = (1.0 - p)*1000;
  
- srand(time(NULL));
  int key = rand() % (p1 + p2);
  
  if (key <= p1) return 1;

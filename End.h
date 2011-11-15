@@ -1,4 +1,4 @@
-//rxtern int time;
+//rxtern int _time;
 //extern int preamble[54];
 //extern int _count;
 //extern int MAX;

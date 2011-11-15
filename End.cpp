@@ -1,14 +1,16 @@
 #include "End.h"
 #include <math.h>
 #include <stdlib.h>
-extern int time;
+#include <iostream>
+using namespace std;
+extern int _time;
 extern int preamble[54];
 extern int _count;
 extern int MAX;
 extern int setProbablity(int);
 void End::setpreamble()
 {
-  if(_setTime != time) return;
+  if(_setTime != _time) return;
   else {
     _preamble = rand()%54;
     preamble[_preamble]++;
@@ -47,6 +49,7 @@ void End::settime()
 }
 void End::id()
 {
+  cout << "id success.\n\n";
   if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
     _count++;
