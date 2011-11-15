@@ -16,13 +16,13 @@ int collision_time = 0;
 //
 int _time = 1;// the order of the subframe
 int preamble[54] = {0};
-int count = 0;//to record the tutle number of successful and abort End
+int _count = 0;//to record the tutle number of successful and abort End
 void responseForUseSamePreamble();//for
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
 int main() {
   End end[100];
-  for(; count < 100 ; _time +=5 ){
+  for(; _count < 100 ; _time +=5 ){
     for( int n = 0; n < 100; n++ )
       end[n].setpreamble();     
     responseForUseSamePreamble();
@@ -38,7 +38,7 @@ int main() {
       end[n].settime();
     }
  
- cout << "time: " << _time << "    count: " << count << endl;
+ cout << "time: " << _time << "    _count: " << _count << endl;
   }
  
  

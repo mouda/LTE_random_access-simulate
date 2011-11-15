@@ -3,7 +3,7 @@
 #include <stdlib.h>
 extern int time;
 extern int preamble[54];
-extern int count;
+extern int _count;
 extern int MAX;
 extern int setProbablity(int);
 void End::setpreamble()
@@ -31,7 +31,7 @@ void End::settime()
     _index++;
     if(_index > MAX) {
       _setTime = -2;
-      count++;
+      _count++;
     }
   }else {
     int tmp2 = 8 + rand()%20;
@@ -40,7 +40,7 @@ void End::settime()
     //_setTime = [8+rand(20)+SOMETHING];//set the next preamble transmission time
     _index++;
     if(_index > MAX){
-      count++;
+      _count++;
       _setTime = -2;
     }
   }
@@ -49,7 +49,7 @@ void End::id()
 {
   if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
-    count++;
+    _count++;
   }
   else{
     int tmp = 48 + rand()%20;
@@ -58,7 +58,7 @@ void End::id()
     _index++;
     if ( _index > MAX){
       _setTime = -2;
-      count++;
+      _count++;
     }
   }
 }

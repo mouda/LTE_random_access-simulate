@@ -1,6 +1,6 @@
 //rxtern int time;
 //extern int preamble[54];
-//extern int count;
+//extern int _count;
 //extern int MAX;
 //extern int setProbablity(int);
 class End {
