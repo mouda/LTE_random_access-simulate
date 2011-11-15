@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include "End.h"
 using namespace std;
- 
+//lynn is here
+//hello world~
 //for parameter not changed!!
 const int Simulation_Time = 1000;
 const int MAX = 10;
