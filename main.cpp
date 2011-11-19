@@ -116,7 +116,7 @@ int setProbablity( int retransmit )
 void set_traffic(End* end) {
 	if (lte::traffic_type == uniform_start) {
 		for (int i = 0; i < lte::EndNum;) 
-			end[i].setStartTime(rand()%61);
+			end[i].setStartTime((rand()%12000)*5 + 1);
 	}
 	else if (lte::traffic_type == beta_start) {
 	
