@@ -5,7 +5,7 @@ class End {
     void responseForOnlyOne();
     void settime();
     void id();
-	void setStartTime(int t) {_setTime = t};
+	void setStartTime(int t) {_setTime = t;}
   private:
     int _setTime;
     int _preamble;

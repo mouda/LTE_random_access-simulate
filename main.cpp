@@ -36,7 +36,7 @@ int _goodEnd = 0;
 //
 
 void responseForUseSamePreamble();
-void set_traffic(End[] end);
+void set_traffic(End* end);
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
 void cleanup() {
@@ -113,9 +113,9 @@ int setProbablity( int retransmit )
  else return 0;
 }
 
-void set_traffic(End[] end) {
+void set_traffic(End* end) {
 	if (lte::traffic_type == uniform_start) {
-		for (int i = 0; i < lte::EndNum) 
+		for (int i = 0; i < lte::EndNum;) 
 			end[i].setStartTime(rand()%61);
 	}
 	else if (lte::traffic_type == beta_start) {
