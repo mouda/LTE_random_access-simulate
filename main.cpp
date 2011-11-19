@@ -3,27 +3,65 @@
 #include <stdlib.h>
 #include "End.h"
 #include "main.h"
+#include "parse.h"
 using namespace std;
-//for parameter measuring the changed!!!
-int finish_time[EndNum];
+
+
+
+//lynn is here   jas try
+//hello world~
+
+//for parameter measuring the efficiency!!!
+int* finish_time;
 int access_time = 0;
 int collision_time = 0;
-int _time = 1;                  // the order of the subframe
-int preamble[preambleNum] = {0};
-int _count = 0;                 //to record the tutle number of successful a
-                                //nd abort End
-int _access = 0;
+
+//for connection parameters
+int lte::preambleNum = default_preambleNum;
+int lte::EndNum = default_EndNum;
+int lte::Simulation_Time = default_Simulation_Time;
+int lte::MAX = default_MAX;
+int lte::RandomBackoffIndex = default_RandomBackoffIndex;
+int lte::firstWaiting = default_firstWaiting;
+int lte::secondWaiting = default_secondWaiting;
+int lte::traffic_type = default_start;
+
+//
+
+//global changeable variables
+int _time = 1;// the order of the subframe
+int* preamble;
+int _count = 0;//to record the tutle number of successful and abort End
+int _goodEnd = 0;
+//
 
 void responseForUseSamePreamble();
+void set_traffic(End[] end);
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
+void cleanup() {
+	delete preamble;
+	delete finish_time;
+}
 
 
-int main() {
-    End end[EndNum];
+int main(int argc, char** argv) {
+
+	lineParsing(argc, argv); //./simulate -end endnum -rand RandomBackoffIndex -type start_scenario
+	cout << "connection scenario is setting..." << endl;
+	
+	preamble = new int[lte::preambleNum];
+	finish_time = new int[lte::EndNum];
+	
+	//end definitions!!
+    End end[lte::EndNum];
+	set_traffic(end);
+	
+	//
+	
     srand(time(NULL));
-    for(; _count < EndNum ; _time +=5 ){
-	for( int n = 0; n < EndNum; n++ )
+    for(; _count < lte::EndNum ; _time +=5 ){
+	for( int n = 0; n < lte::EndNum; n++ )
 	    end[n].setpreamble(); 
 	/*-----debug-----
 	for (int i = 0; i < 54; i++)
@@ -34,35 +72,24 @@ int main() {
 	for (int i = 0; i < 54; i++)
 	    cout << i << " : " << preamble[i] << endl;
 	//-----debug-----*/
-	for( int n = 0; n < EndNum; n++ ){
+	for( int n = 0; n < lte::EndNum; n++ ){
 	    end[n].responseForOnlyOne();
 	    end[n].settime();
 	}
  
-	cout << _time << "\t" << _count << endl;
+	cout << _time << "\t" << _count << "\t" << _goodEnd << endl;
 	
-	for (int i = 0; i < preambleNum; i++) {
+	for (int i = 0; i < lte::preambleNum; i++) {
 	    preamble[i] = 0;
 	}
     }
-    int _success = 0;
-    int totalCollision = 0;
-    cout << "==collision    finish==\n";
-    for (int j = 0; j < 100; j++) {
-	if (end[j].getSettime() == -1)
-	    _success++;
-	totalCollision += end[j].getCollision();
-	cout << end[j].getCollision() << "\t" << end[j].getFinish() << endl;
-    }
-    cout << "success number : \t" << _success << endl;
-    cout << "Total collision : \t" << totalCollision << endl;
-    cout << "Total access : \t" << _access << endl;
-
+	
+	cleanup();
     return 0;
 }
 void responseForUseSamePreamble()
 {
-    for( int i = 0; i < preambleNum;  i++ ){
+    for( int i = 0; i < lte::preambleNum;  i++ ){
 	if( preamble[i] > 1 ){
 	//preamble[i] = setProbablity(1); 
 	    if (setProbablity(1) == 0) { 
@@ -84,4 +111,14 @@ int setProbablity( int retransmit )
  
  if (key <= p1) return 1;
  else return 0;
+}
+
+void set_traffic(End[] end) {
+	if (lte::traffic_type == uniform_start) {
+		for (int i = 0; i < lte::EndNum) 
+			end[i].setStartTime(rand()%61);
+	}
+	else if (lte::traffic_type == beta_start) {
+	
+	}
 }
