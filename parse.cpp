@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 void showHelp() {
-
-
+  cout << "-help: print out the help message. "                         <<endl; 
+  cout << "-end : specify the number of the Ends   "                    <<endl; 
+  cout << "-rand: specify the number of random backoff index"           <<endl; 
+  cout << "-type: specify the traffic type, uniform or Beta distribtion"<<endl; 
 }
 void lineParsing (int argc, char** argv) {
   if (argc == 1) {
