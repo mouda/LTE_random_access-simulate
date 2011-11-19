@@ -6,23 +6,17 @@
 
 using namespace std;
 extern int _time;
-extern int preamble[preambleNum];
+extern int* preamble;
 extern int _count;
+extern int _goodEnd;
 extern int setProbablity(int);
-extern int _access;
-/*
-extern int finish_time[100];
-extern int access_time;
-extern int collision_time;
-*/
 
 void End::setpreamble()
 {
   if(_setTime != _time) return;
   else {
-    _preamble = rand()%preambleNum;
+    _preamble = rand()%lte::preambleNum;
     preamble[_preamble]++;
-    _access++;
   }
 }
 void End::responseForOnlyOne()
@@ -48,18 +42,18 @@ void End::settime()
 	id();// case for success
     }
     else if (preamble[_preamble] > 1){
-	_setTime += _CountCeil(firstWaiting + secondWaiting + rand()%RandomBackoffIndex);
+	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
 	//_setTime = [48+rand(20)+SOMETHING];
 	_index++;
-	if(_index > MAX) {
+	if(_index > lte::MAX) {
 	    _setTime = -2;
 	    _count++;
 	}
     }else {
-	_setTime += _CountCeil(firstWaiting + rand()%RandomBackoffIndex);
+	_setTime += _CountCeil(lte::firstWaiting + rand()%lte::RandomBackoffIndex);
 	//set the next preamble transmission time
 	_index++;
-	if(_index > MAX){
+	if(_index > lte::MAX){
 	    _count++;
 	    _setTime = -2;
 	}
@@ -71,14 +65,13 @@ void End::id()
   //cout << "id success.\n\n";
   if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
+	_goodEnd++;
     _count++;
-    _finishTime = _time;
   }
   else{
-    _collisionTime++;
-    _setTime += _CountCeil(firstWaiting + secondWaiting + rand()%RandomBackoffIndex);
+	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
     _index++;
-    if ( _index > MAX){
+    if ( _index > lte::MAX){
       _setTime = -2;
       _count++;
     }
