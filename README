@@ -1,3 +1,9 @@
 
 this project is to simulate the performance of the random access procedure in 
 in the LTE system   
+
+now it has following function
+
+1. traffic model
+2. specify some parameter in the LTE system
+3. report the simulate result
