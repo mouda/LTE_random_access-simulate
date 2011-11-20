@@ -4,15 +4,59 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-End	End.h	/^    End(){ _setTime = 1; _preamble = 0; _index = 0; };$/;"	f	class:End
+CC	Makefile	/^CC = g++$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -g$/;"	m
+End	End.h	/^    End(){ _setTime = 1; _preamble = 0; _index = 1; };$/;"	f	class:End
 End	End.h	/^class End {$/;"	c
-MAX	main.cpp	/^int MAX = 10;$/;"	v
+EndNum	main.cpp	/^int lte::EndNum = default_EndNum;$/;"	m	class:lte	file:
+EndNum	main.h	/^	static int EndNum;$/;"	m	struct:lte
+MAX	main.cpp	/^int lte::MAX = default_MAX;$/;"	m	class:lte	file:
+MAX	main.h	/^	static int MAX;$/;"	m	struct:lte
+RandomBackoffIndex	main.cpp	/^int lte::RandomBackoffIndex = default_RandomBackoffIndex;$/;"	m	class:lte	file:
+RandomBackoffIndex	main.h	/^	static int RandomBackoffIndex;$/;"	m	struct:lte
+Simulation_Time	main.cpp	/^int lte::Simulation_Time = default_Simulation_Time;$/;"	m	class:lte	file:
+Simulation_Time	main.h	/^	static int Simulation_Time;$/;"	m	struct:lte
+_CountCeil	End.cpp	/^int End::_CountCeil(int t) {$/;"	f	class:End
+__MAIN_H__	main.h	2;"	d
+_count	main.cpp	/^int _count = 0;\/\/to record the tutle number of successful and abort End$/;"	v
+_goodEnd	main.cpp	/^int _goodEnd = 0;$/;"	v
 _index	End.h	/^    int _index;$/;"	m	class:End
 _preamble	End.h	/^    int _preamble;$/;"	m	class:End
 _setTime	End.h	/^    int _setTime;$/;"	m	class:End
-count	main.cpp	/^int count = 0;\/\/to record the tutle number of successful and abort End $/;"	v
+_time	main.cpp	/^int _time = 1;\/\/ the order of the subframe$/;"	v
+access_time	main.cpp	/^int access_time = 0;$/;"	v
+beta_start	main.h	15;"	d
+cleanup	main.cpp	/^void cleanup() {$/;"	f
+collision_time	main.cpp	/^int collision_time = 0;$/;"	v
+default_EndNum	main.h	6;"	d
+default_MAX	main.h	8;"	d
+default_RandomBackoffIndex	main.h	9;"	d
+default_Simulation_Time	main.h	7;"	d
+default_firstWaiting	main.h	10;"	d
+default_preambleNum	main.h	5;"	d
+default_secondWaiting	main.h	11;"	d
+default_start	main.h	13;"	d
+finish_time	main.cpp	/^int* finish_time;$/;"	v
+firstWaiting	main.cpp	/^int lte::firstWaiting = default_firstWaiting;$/;"	m	class:lte	file:
+firstWaiting	main.h	/^	static int firstWaiting;$/;"	m	struct:lte
 id	End.cpp	/^void End::id()$/;"	f	class:End
-preamnble	main.cpp	/^int preamnble[54];$/;"	v
-respForUseSamePreamble	main.cpp	/^void respForUseSamePreamble()$/;"	f
+lineParsing	parse.cpp	/^void lineParsing (int argc, char** argv) {$/;"	f
+lte	main.h	/^struct lte {$/;"	s
+main	main.cpp	/^int main(int argc, char** argv) {$/;"	f
+preamble	main.cpp	/^int* preamble;$/;"	v
+preambleNum	main.cpp	/^int lte::preambleNum = default_preambleNum;$/;"	m	class:lte	file:
+preambleNum	main.h	/^	static int preambleNum;$/;"	m	struct:lte
 responseForOnlyOne	End.cpp	/^void End::responseForOnlyOne()$/;"	f	class:End
+responseForUseSamePreamble	main.cpp	/^void responseForUseSamePreamble()$/;"	f
+secondWaiting	main.cpp	/^int lte::secondWaiting = default_secondWaiting;$/;"	m	class:lte	file:
+secondWaiting	main.h	/^	static int secondWaiting;$/;"	m	struct:lte
+setProbablity	main.cpp	/^int setProbablity( int retransmit )$/;"	f
+setStartTime	End.h	/^	void setStartTime(int t) {_setTime = t;}$/;"	f	class:End
+set_traffic	main.cpp	/^void set_traffic(End* end) {$/;"	f
+setpreamble	End.cpp	/^void End::setpreamble()$/;"	f	class:End
 settime	End.cpp	/^void End::settime()$/;"	f	class:End
+showHelp	parse.cpp	/^void showHelp() {$/;"	f
+traffic_type	main.cpp	/^int lte::traffic_type = default_start;$/;"	m	class:lte	file:
+traffic_type	main.h	/^	static int traffic_type;$/;"	m	struct:lte
+uniform_index	main.h	17;"	d
+uniform_start	main.h	14;"	d
