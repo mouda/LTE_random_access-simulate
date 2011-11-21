@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <string.h>
 #include <math.h>
 #include <stdlib.h>
 #include "End.h"
@@ -118,7 +120,23 @@ void set_traffic(End* end) {
 		for (int i = 0; i < lte::EndNum; i++) 
 			end[i].setStartTime((rand()%12000)*5 + 1);
 	}
+	/*
+	Beta(a,b): a=3 b=4    Beta(3,4) = 1/60
+	p(t) = 6/10^5*t^2*(10-t)^3
+	access_intensity(i) = EndNum * integral of p(t) from ti to ti+1
+	*/
 	else if (lte::traffic_type == beta_start) {
-	
+		ifstream inFile("betabase.txt");
+		string line;
+		int index = 0;
+		double tmp;
+		int settime;
+		
+		while(getline(inFile, line)) {
+			tmp = atof(line.c_str());
+			settime = (int)floor(tmp*2000.0);
+			end[index].setStartTime(settime*5 + 1);
+			index++;
+		}
 	}
 }
