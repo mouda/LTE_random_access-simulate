@@ -126,11 +126,35 @@ void set_traffic(End* end) {
 	access_intensity(i) = EndNum * integral of p(t) from ti to ti+1
 	*/
 	else if (lte::traffic_type == beta_start) {
-		ifstream inFile("betabase.txt");
+		char* fileName;
 		string line;
+		
 		int index = 0;
 		double tmp;
 		int settime;
+		
+		switch(lte::EndNum) {
+		case 100:
+			fileName = "betabase.txt";
+			break;
+		case 1000:
+			fileName = "betabase1000.txt";
+			break;
+		case 5000:
+			fileName = "betabase5000.txt";
+			break;
+		case 10000:
+			fileName = "betabase10000.txt";
+			break;
+		case 30000:
+			fileName = "betabase30000.txt";
+			break;
+		default:
+			cout << lte::EndNum << " is not included, please choose 100, 1000, 5000, 10000 or 30000!!!" << endl;
+			exit(1);
+		}
+		
+		ifstream inFile(fileName);
 		
 		while(getline(inFile, line)) {
 			tmp = atof(line.c_str());
