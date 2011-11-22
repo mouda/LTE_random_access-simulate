@@ -104,7 +104,8 @@ void analysisForNode(End &e, int i) {
     else _state = "==err==";
 
     cout << setw(10) << "node" << setw(10) << (i+1) 
-         << setw(10) << "delay" << setw(10) << e.getFinishTime()
+	 << setw(10) << "start" << setw(10) << e.getStart()
+         << setw(10) << "delay" << setw(10) << e.getDelayTime()
          << setw(10) << "retrans" << setw(10) << e.getIndex()
          << setw(10) << "collision" << setw(10) << e.getCollision()
          << setw(10) << "finally" << setw(10) << _state
