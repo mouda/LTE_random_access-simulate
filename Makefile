@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g
-all:End.o parse.o main.o specialfunctions.o
+all:End.o parse.o main.o specialfunctions.o alglibinternal.o ap.o
 	${CC} ${CFLAGS} -o simulate End.o parse.o main.o specialfunctions.o alglibinternal.o ap.o
 End.o:End.cpp End.h
 	${CC} ${CFLAGS} End.cpp End.h -c
