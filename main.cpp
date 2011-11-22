@@ -7,6 +7,9 @@
 #include "main.h"
 #include "parse.h"
 #include <iomanip>
+#include "specialfunctions.h"
+
+using namespace alglib;
 using namespace std;
 
 //for parameter measuring the efficiency!!!
@@ -80,6 +83,8 @@ int main(int argc, char** argv) {
     cout << "===Node===\n";
     for (int i = 0; i < lte::EndNum; i++)
 	analysisForNode(end[i], i);
+
+    cout << beta(1.0, 2.0) << endl;
 
     cleanup();
     return 0;
