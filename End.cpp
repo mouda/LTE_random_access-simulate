@@ -26,24 +26,18 @@ void End::responseForOnlyOne()
     if(preamble[_preamble] == 1) {
 	//probability base on the retransmission
 	preamble[_preamble] = setProbablity(_index);
-	/*----debug-----
-	cout << _preamble << " : " << preamble[_preamble] << endl;
-	//----debug-----*/
     }
 }
 void End::settime()
 {
     if (_setTime != _time)
 	return;
-    //cout << "settime in, preamble : " << _preamble 
-	// << "howmany : " << preamble[_preamble] << endl;
     if(preamble[_preamble] == 1) {
-	//cout << "preamble == 1\n";
 	id();// case for success
     }
     else if (preamble[_preamble] > 1){
+	_collision++;
 	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
-	//_setTime = [48+rand(20)+SOMETHING];
 	_index++;
 	if(_index > lte::MAX) {
 	    _setTime = -2;
@@ -58,23 +52,22 @@ void End::settime()
 	    _setTime = -2;
 	}
     }
-    //cout << "settime : " << _setTime << endl;
 }
 void End::id()
 {
-  //cout << "id success.\n\n";
   if ( setProbablity(_index) == 1 ) {
     _setTime = -1;
-	_goodEnd++;
+    _goodEnd++;
     _count++;
+    _finish = _time;
   }
   else{
 	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
-    _index++;
-    if ( _index > lte::MAX){
-      _setTime = -2;
-      _count++;
-    }
+	_index++;
+	if ( _index > lte::MAX){
+	    _setTime = -2;
+	    _count++;
+	}
   }
 }
 

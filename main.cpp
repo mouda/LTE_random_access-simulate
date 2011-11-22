@@ -6,18 +6,14 @@
 #include "End.h"
 #include "main.h"
 #include "parse.h"
+#include <iomanip>
 using namespace std;
-
-
-
-//lynn is here   jas try
-//hello world~
 
 //for parameter measuring the efficiency!!!
 int* finish_time;
 int access_time = 0;
 int collision_time = 0;
-
+//====This collision_time parameter--->when there are two or more ends using the same preamble, collision_time++
 //for connection parameters
 int lte::preambleNum = default_preambleNum;
 int lte::EndNum = default_EndNum;
@@ -27,8 +23,6 @@ int lte::RandomBackoffIndex = default_RandomBackoffIndex;
 int lte::firstWaiting = default_firstWaiting;
 int lte::secondWaiting = default_secondWaiting;
 int lte::traffic_type = default_start;
-
-//
 
 //global changeable variables
 int _time = 1;// the order of the subframe
@@ -42,63 +36,89 @@ void set_traffic(End* end);
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
 void cleanup() {
-	delete preamble;
-	delete finish_time;
+    delete preamble;
+    delete finish_time;
 }
 
+void analysisForEvent(int, int, int);
+void analysisForNode(End &, int);
 
 int main(int argc, char** argv) {
 
-	lineParsing(argc, argv); //./simulate -end endnum -rand RandomBackoffIndex -type start_scenario
-	cout << "connection scenario is setting..." << endl;
+    lineParsing(argc, argv); 
+    //./simulate -end endnum -rand RandomBackoffIndex -type start_scenario
+    cout << "connection scenario is setting..." << endl;
 	
-	preamble = new int[lte::preambleNum];
-	finish_time = new int[lte::EndNum];
+    preamble = new int[lte::preambleNum];
+    finish_time = new int[lte::EndNum];
 	
-	//end definitions!!
+    //end definitions!!
     End end[lte::EndNum];
-	set_traffic(end);
-	
-	//
+    set_traffic(end);
 	
     srand(time(NULL));
     for(; _count < lte::EndNum ; _time +=5 ){
 	for( int n = 0; n < lte::EndNum; n++ )
 	    end[n].setpreamble(); 
-	/*-----debug-----
-	for (int i = 0; i < 54; i++)
-	    cout << i << " : " << preamble[i] << endl;
-	//-----debug-----*/
 	responseForUseSamePreamble();
-	/*-----debug-----
-	for (int i = 0; i < 54; i++)
-	    cout << i << " : " << preamble[i] << endl;
-	//-----debug-----*/
 	for( int n = 0; n < lte::EndNum; n++ ){
 	    end[n].responseForOnlyOne();
 	    end[n].settime();
 	}
  
-	cout << _time << "\t" << _count << "\t" << _goodEnd << endl;
+	if (_time == 1)
+	    cout << "===Event===" << endl;
+	analysisForEvent(_time, _count, _goodEnd);
 	
+	//reset the preamble[] to zero!
 	for (int i = 0; i < lte::preambleNum; i++) {
 	    preamble[i] = 0;
 	}
+    
     }
-	
-	cleanup();
+    
+    cout << "===Node===\n";
+    for (int i = 0; i < lte::EndNum; i++)
+	analysisForNode(end[i], i);
+
+    cleanup();
     return 0;
+
 }
+
+void analysisForEvent(int _time, int _count, int _goodEnd) {
+    cout << setw(10) << "time(ms)" << setw(10) << (_time+1) 
+	 << setw(10) << "abort" << setw(10) << (_count-_goodEnd)
+	 << setw(10) << "success" << setw(10) << (_goodEnd) 
+	 << setw(10) << "collision" << setw(10) << collision_time
+	 << endl;
+}
+
+void analysisForNode(End &e, int i) {
+    
+    string _state;
+    if (e.getStartTime() == -1)
+	_state = "o";
+    else if (e.getStartTime() == -2)
+	_state = "xxx";
+    else _state = "==err==";
+
+    cout << setw(10) << "node" << setw(10) << (i+1) 
+         << setw(10) << "delay" << setw(10) << e.getFinishTime()
+         << setw(10) << "retrans" << setw(10) << e.getIndex()
+         << setw(10) << "collision" << setw(10) << e.getCollision()
+         << setw(10) << "finally" << setw(10) << _state
+         << endl;
+}
+
 void responseForUseSamePreamble()
 {
     for( int i = 0; i < lte::preambleNum;  i++ ){
 	if( preamble[i] > 1 ){
 	//preamble[i] = setProbablity(1); 
+	    collision_time++;
 	    if (setProbablity(1) == 0) { 
 		preamble[i] = 0;
-		/*/------debug-----
-		cout << "setpro = 0\n";
-		//------debug-----*/
 	    }
 	}
   }
