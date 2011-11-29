@@ -108,11 +108,10 @@ int main(int argc, char** argv) {
 }
 
 void analysisForEvent(int _time, int _count, int _goodEnd) {
-    cout << setw(10) << "time(ms)" << setw(10) << (_time+1) 
-	 << setw(10) << "abort" << setw(10) << (_count-_goodEnd)
-	 << setw(10) << "success" << setw(10) << (_goodEnd) 
-	 << setw(10) << "collision" << setw(10) << collision_time
-	 << endl;
+    cout << "time(ms)" << "\t" << (_time+1) << "\t"
+	 << "abort" << "\t" << (_count-_goodEnd) << "\t"
+	 << "success" << "\t" << (_goodEnd) <<"\t"
+	 << "collision" << "\t" << collision_time << endl;
 }
 
 void analysisForNode(End &e, int i) {
@@ -124,13 +123,12 @@ void analysisForNode(End &e, int i) {
 	_state = "xxx";
     else _state = "==err==";
 
-    cout << setw(10) << "node" << setw(10) << (i+1) 
-	 << setw(10) << "start" << setw(10) << e.getStart()
-         << setw(10) << "delay" << setw(10) << e.getDelayTime()
-         << setw(10) << "retrans" << setw(10) << e.getIndex()
-         << setw(10) << "collision" << setw(10) << e.getCollision()
-         << setw(10) << "finally" << setw(10) << _state
-         << endl;
+    cout << "node" << "\t" << (i+1) << "\t"
+	 << "start" << "\t" << e.getStart() << "\t"
+         << "delay" << "\t" << e.getDelayTime() << "\t"
+         << "retrans" << "\t" << e.getIndex() << "\t"
+         << "collision" << "\t" << e.getCollision() << "\t"
+         << "finally" << "\t" << _state << endl;
 }
 
 void responseForUseSamePreamble()
