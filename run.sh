@@ -2,8 +2,12 @@
 
 rm result.txt
 index=0;
-simulateTimes=5;
+simulateTimes=20;
+endNumber=100;
 for index in $(seq 1 $simulateTimes)
 do 
-  ./simulate -end 5000 -rand 20 -type uniform >> result.txt
+  parameter=`expr 1000 + $index \* 2000`;
+#  echo $index;
+  echo "==================== End number $parameter ======================";
+  ./simulate -end $parameter -rand 20 -type uniform >> result.txt
 done
