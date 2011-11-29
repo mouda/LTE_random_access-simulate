@@ -33,7 +33,7 @@ int* preamble;
 int _count = 0;//to record the tutle number of successful and abort End
 int _goodEnd = 0;
 //
-
+double betaDistribution(double );
 void responseForUseSamePreamble();
 void set_traffic(End* end);
 // to set the probablity of successful receive, the input is the number of the restransmission
@@ -157,7 +157,9 @@ int setProbablity( int retransmit )
  if (key <= p1) return 1;
  else return 0;
 }
-
+double betaDistribution(double t, double a, double b ) {
+    return pow(t, a-1) * pow((60000-t), b-1) / pow(60000, a+b-1) / beta(a, b);
+}
 void set_traffic(End* end) {
 	if (lte::traffic_type == uniform_start) {
 		for (int i = 0; i < lte::EndNum; i++) 

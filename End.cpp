@@ -36,11 +36,13 @@ void End::settime()
 	id();// case for success
     }
     else if (preamble[_preamble] > 1){
+	int Fwait = rand() % 5 + 1;
 	_collision++;
-	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
+	_setTime += _CountCeil(/*lte::firstWaiting*/ (Fwait + 3) + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
 	_index++;
 	if(_index > lte::MAX) {
 	    _setTime = -2;
+	    _finish = _time + (Fwait + 3) + lte::secondWaiting;
 	    _count++;
 	}
     }else {
@@ -50,23 +52,26 @@ void End::settime()
 	if(_index > lte::MAX){
 	    _count++;
 	    _setTime = -2;
+	    _finish = _time + lte::firstWaiting;
 	}
     }
 }
 void End::id()
 {
+  int Fwait = rand() % 5 + 1;
   if ( setProbablity(_index) == 1 ) {
+    int Swait = rand() % 48 + 1;
     _setTime = -1;
     _goodEnd++;
     _count++;
-    _finish = _time;
-  }
-  else{
-	_setTime += _CountCeil(lte::firstWaiting + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
+    _finish = _time + (3 +Fwait) + Swait;
+  } else {
+	_setTime += _CountCeil(/*lte::firstWaiting*/ (Fwait + 3) + lte::secondWaiting + rand()%lte::RandomBackoffIndex);
 	_index++;
-	if ( _index > lte::MAX){
+	if ( _index > lte::MAX ) {
 	    _setTime = -2;
 	    _count++;
+	    _finish = _time + (3 + Fwait) + lte::secondWaiting;
 	}
   }
 }

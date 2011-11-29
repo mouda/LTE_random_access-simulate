@@ -1,3 +1,5 @@
+#include "assert.h"
+
 class End {
   public:
     End(){ _setTime = 1; _preamble = 0; _index = 1; _finish = 0; _collision = 0; _start = 0;};
@@ -7,7 +9,10 @@ class End {
     void id();
     void setStartTime(int t) { _setTime = t; _start = t;}
     int getStartTime() { return _setTime; }
-    int getDelayTime() { return (_finish - _start); }
+    int getDelayTime() { 
+	assert((_finish - _start) >= 0);
+	return (_finish - _start); 
+    }
     int getIndex() { return _index; }
     int getCollision() { return _collision; }
     int getStart() { return _start; }
