@@ -142,9 +142,7 @@ void responseForUseSamePreamble()
 	//preamble[i] = setProbablity(1); 
 	    if (setProbablity(1) == 0) { 
 		preamble[i] = 0;
-		/*/------debug-----
-		cout << "setpro = 0\n";
-		//------debug-----*/
+		collision_time++;
 	    }
 	}
   }
