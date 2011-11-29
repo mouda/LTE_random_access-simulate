@@ -93,14 +93,13 @@ int main(int argc, char** argv) {
 	_Tdelay += end[i].getDelayTime();
     }
     cerr << "===Analysis===\n";
-    cerr << "Total success number : " << _goodEnd << endl
-	 << "Total collision (counted by preambles) : " << collision_time << endl
-	 << "Total collision (counted by terminals) : " << _TEcollision << endl
-	 << "Collision probability (counted by preambles) : " << ((double) collision_time)/((double)_Taccess) << endl
-	 << "Collision probability (counted by terminals) : " << ((double) _TEcollision)/((double) _Taccess) << endl
-	 << "Access success probability : " << ((double) _goodEnd)/((double) _Taccess) << endl
-	 << "Average delay : " << ((double) _Tdelay)/((double) lte::EndNum) << endl;
-	// << "Variance of delay : " <<  << endl;
+    cerr << _goodEnd << "\tTotal success number" << endl
+	 << collision_time << "\tTotal collision (counted by preambles)" << endl
+	 << _TEcollision << "\tTotal collision (counted by terminals)" << endl
+	 << ((double) collision_time)/((double) _Taccess) << "\tCollision probability (counted by preambles)" << endl
+	 << ((double) _TEcollision)/((double) _Taccess) << "\tCollision probability (counted by terminals)" << endl
+	 << ((double) _goodEnd)/((double) _Taccess) << "\tAccess success probability" << endl
+	 << ((double) _Tdelay)/((double) lte::EndNum) << "\tAverage delay" << endl;
     
     cleanup();
     return 0;
