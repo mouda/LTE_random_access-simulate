@@ -83,9 +83,26 @@ int main(int argc, char** argv) {
     cout << "===Node===\n";
     for (int i = 0; i < lte::EndNum; i++)
 	analysisForNode(end[i], i);
-
-    cout << beta(1.0, 2.0) << endl;
-
+    
+    int _Taccess = 0;
+    int _TEcollision = 0;
+    int _Tdelay = 0;
+    for (int i = 0; i < lte::EndNum; i++) {
+	_Taccess += end[i].getIndex();
+	_TEcollision += end[i].getCollision();	
+	_Tdelay += end[i].getDelayTime();
+    }
+    cerr << "_Taccess = " << _Taccess << endl;
+    cerr << "===Analysis===\n";
+    cerr << "Total success number : " << _goodEnd << endl
+	 << "Total collision (counted by preambles) : " << collision_time << endl
+	 << "Total collision (counted by terminals) : " << _TEcollision << endl
+	 << "Collision probability (counted by preambles) : " << ((double) collision_time)/((double)_Taccess) << endl
+	 << "Collision probability (counted by terminals) : " << ((double) _TEcollision)/((double) _Taccess) << endl
+	 << "Access success probability : " << ((double) _goodEnd)/((double) _Taccess) << endl
+	 << "Average delay : " << ((double) _Tdelay)/((double) lte::EndNum) << endl;
+	// << "Variance of delay : " <<  << endl;
+    
     cleanup();
     return 0;
 
@@ -188,5 +205,6 @@ void set_traffic(End* end) {
 			end[index].setStartTime(settime*5 + 1);
 			index++;
 		}
+		
 	}
 }
