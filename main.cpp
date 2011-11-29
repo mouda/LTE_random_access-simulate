@@ -9,14 +9,14 @@
 #include <iomanip>
 #include "specialfunctions.h"
 
-using namespace alglib;
 using namespace std;
+using namespace alglib;
 
 //for parameter measuring the efficiency!!!
 int* finish_time;
 int access_time = 0;
 int collision_time = 0;
-//====This collision_time parameter--->when there are two or more ends using the same preamble, collision_time++
+
 //for connection parameters
 int lte::preambleNum = default_preambleNum;
 int lte::EndNum = default_EndNum;
@@ -27,20 +27,23 @@ int lte::firstWaiting = default_firstWaiting;
 int lte::secondWaiting = default_secondWaiting;
 int lte::traffic_type = default_start;
 
+//
+
 //global changeable variables
 int _time = 1;// the order of the subframe
 int* preamble;
 int _count = 0;//to record the tutle number of successful and abort End
 int _goodEnd = 0;
+int _retransmission = 0;
 //
-double betaDistribution(double );
+double betaDistribution(double, double, double);
 void responseForUseSamePreamble();
 void set_traffic(End* end);
 // to set the probablity of successful receive, the input is the number of the restransmission
 int setProbablity( int );
 void cleanup() {
-    delete preamble;
-    delete finish_time;
+	delete preamble;
+	delete finish_time;
 }
 
 void analysisForEvent(int, int, int);
@@ -48,16 +51,16 @@ void analysisForNode(End &, int);
 
 int main(int argc, char** argv) {
 
-    lineParsing(argc, argv); 
-    //./simulate -end endnum -rand RandomBackoffIndex -type start_scenario
-    cout << "connection scenario is setting..." << endl;
+	lineParsing(argc, argv); //./simulate -end endnum -rand RandomBackoffIndex -type start_scenario
+	cout << "connection scenario is setting..." << endl;
 	
-    preamble = new int[lte::preambleNum];
-    finish_time = new int[lte::EndNum];
+	preamble = new int[lte::preambleNum];
+	finish_time = new int[lte::EndNum];
 	
-    //end definitions!!
+	//end definitions!!
     End end[lte::EndNum];
-    set_traffic(end);
+	set_traffic(end);
+	//
 	
     srand(time(NULL));
     for(; _count < lte::EndNum ; _time +=5 ){
@@ -70,64 +73,66 @@ int main(int argc, char** argv) {
 	}
  
 	if (_time == 1)
-	    cout << "===Event===" << endl;
+		cout << "===Event===" << endl;
 	analysisForEvent(_time, _count, _goodEnd);
 	
-	//reset the preamble[] to zero!
 	for (int i = 0; i < lte::preambleNum; i++) {
 	    preamble[i] = 0;
 	}
-    
     }
-    
-    cout << "===Node===\n";
-    for (int i = 0; i < lte::EndNum; i++)
-	analysisForNode(end[i], i);
-    
-    int _Taccess = 0;
-    int _TEcollision = 0;
+	
+	cout << "===Node===\n";
+	for (int i = 0; i < lte::EndNum; i++)	
+		analysisForNode(end[i], i);
+		
+	int _Taccess = 0;
+	int _TEcollision = 0;
     int _Tdelay = 0;
-    for (int i = 0; i < lte::EndNum; i++) {
-	_Taccess += end[i].getIndex();
-	_TEcollision += end[i].getCollision();	
-	_Tdelay += end[i].getDelayTime();
+	for (int i = 0; i < lte::EndNum; i++)
+	{	
+		_Taccess += end[i].getIndex();
+		_TEcollision += end[i].getCollision();
+		_Tdelay += end[i].getDelayTime();
     }
+	cerr << "_Taccess = " << _Taccess << endl;
     cerr << "===Analysis===\n";
-    cerr << _goodEnd << "\tTotal success number" << endl
-	 << collision_time << "\tTotal collision (counted by preambles)" << endl
-	 << _TEcollision << "\tTotal collision (counted by terminals)" << endl
-	 << ((double) collision_time)/((double) _Taccess) << "\tCollision probability (counted by preambles)" << endl
-	 << ((double) _TEcollision)/((double) _Taccess) << "\tCollision probability (counted by terminals)" << endl
-	 << ((double) _goodEnd)/((double) _Taccess) << "\tAccess success probability" << endl
-	 << ((double) _Tdelay)/((double) lte::EndNum) << "\tAverage delay" << endl;
-    
-    cleanup();
-    return 0;
+    cerr << "Total success number : " << _goodEnd << endl
+		 << "Total collision (counted by preambles) : " << collision_time << endl
+		 << "Total collision (counted by terminals) : " << _TEcollision << endl
+		 << "Collision probability (counted by preambles) : " << ((double) collision_time)/((double)_Taccess) << endl
+		 << "Collision probability (counted by terminals) : " << ((double) _TEcollision)/((double) _Taccess) << endl
+		 << "Access success probability : " << ((double) _goodEnd)/((double) _Taccess) << endl
+		 << "Average delay : " << ((double) _Tdelay)/((double) lte::EndNum) << endl;
+	// << "Variance of delay : " <<  << endl;
+	
 
+	cleanup();
+    return 0;
 }
 
 void analysisForEvent(int _time, int _count, int _goodEnd) {
-    cout << "time(ms)" << "\t" << (_time+1) << "\t"
-	 << "abort" << "\t" << (_count-_goodEnd) << "\t"
-	 << "success" << "\t" << (_goodEnd) <<"\t"
-	 << "collision" << "\t" << collision_time << endl;
+	cout << "\t" << "time(ms)" << "\t" << (_time+1)
+	<< "\t" << "abort" << "\t" << (_count-_goodEnd)
+	<< "\t" << "success" << "\t" << (_goodEnd)
+	<< "\t" << "collision" << "\t" << collision_time
+	<< endl;
 }
 
 void analysisForNode(End &e, int i) {
-    
-    string _state;
-    if (e.getStartTime() == -1)
-	_state = "o";
-    else if (e.getStartTime() == -2)
-	_state = "xxx";
-    else _state = "==err==";
-
-    cout << "node" << "\t" << (i+1) << "\t"
-	 << "start" << "\t" << e.getStart() << "\t"
-         << "delay" << "\t" << e.getDelayTime() << "\t"
-         << "retrans" << "\t" << e.getIndex() << "\t"
-         << "collision" << "\t" << e.getCollision() << "\t"
-         << "finally" << "\t" << _state << endl;
+	string _state;
+	 if (e.getStartTime() == -1)
+		_state = "o";
+	else if (e.getStartTime() == -2)
+		_state = "xxx";
+	else _state = "==err==";
+	
+	cout << "\t" << "node" << "\t" << (i+1)
+	<< "\t" << "start" << "\t" << e.getStart()
+	<< "\t" << "delay" << "\t" << e.getDelayTime()
+	<< "\t" << "retrans" << "\t" << e.getIndex()
+	<< "\t" << "collision" << "\t" << e.getCollision()
+	<< "\t" << "finally" << "\t" << _state
+	<< endl;
 }
 
 void responseForUseSamePreamble()
@@ -135,9 +140,11 @@ void responseForUseSamePreamble()
     for( int i = 0; i < lte::preambleNum;  i++ ){
 	if( preamble[i] > 1 ){
 	//preamble[i] = setProbablity(1); 
-	    collision_time++;
 	    if (setProbablity(1) == 0) { 
 		preamble[i] = 0;
+		/*/------debug-----
+		cout << "setpro = 0\n";
+		//------debug-----*/
 	    }
 	}
   }
@@ -153,9 +160,11 @@ int setProbablity( int retransmit )
  if (key <= p1) return 1;
  else return 0;
 }
+
 double betaDistribution(double t, double a, double b ) {
-    return pow(t, a-1) * pow((60000-t), b-1) / pow(60000, a+b-1) / beta(a, b);
+    return pow(t, a-1.0) * pow((1.0-t), b-1.0) / beta(a, b) / 2.085;
 }
+
 void set_traffic(End* end) {
 	if (lte::traffic_type == uniform_start) {
 		for (int i = 0; i < lte::EndNum; i++) 
@@ -167,41 +176,12 @@ void set_traffic(End* end) {
 	access_intensity(i) = EndNum * integral of p(t) from ti to ti+1
 	*/
 	else if (lte::traffic_type == beta_start) {
-		char* fileName;
-		string line;
-		
-		int index = 0;
-		double tmp;
-		int settime;
-		
-		switch(lte::EndNum) {
-		case 100:
-			fileName = "betabase.txt";
-			break;
-		case 1000:
-			fileName = "betabase1000.txt";
-			break;
-		case 5000:
-			fileName = "betabase5000.txt";
-			break;
-		case 10000:
-			fileName = "betabase10000.txt";
-			break;
-		case 30000:
-			fileName = "betabase30000.txt";
-			break;
-		default:
-			cout << lte::EndNum << " is not included, please choose 100, 1000, 5000, 10000 or 30000!!!" << endl;
-			exit(1);
-		}
-		
-		ifstream inFile(fileName);
-		
-		while(getline(inFile, line)) {
-			tmp = atof(line.c_str());
-			settime = (int)floor(tmp*2000.0);
-			end[index].setStartTime(settime*5 + 1);
-			index++;
+		for (int i = 0; i < lte::EndNum; i++) {
+			//int setPeriod = (int)floor(2000.0*beta(3.0, 4.0));
+			//end[i].setStartTime(setPeriod*5 + 1);
+			int setPeriod = (int)(2000.0*betaDistribution((rand() / ((double)RAND_MAX)), 3.0, 4.0));
+			end[i].setStartTime(setPeriod*5 + 1);
+			//cerr << "!!!!!!!!!!!!!" << betaDistribution((rand() / ((double)RAND_MAX + 1.0)), 3.0, 4.0) << endl;
 		}
 		
 	}
