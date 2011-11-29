@@ -1,7 +1,7 @@
 #!/bin/bash
 
 index=0;
-simulateTimes=1;
+simulateTimes=15;
 endNumber=100;
 nameForEndEvent="resultEnd_";
 nameForEndReport="reportEnd_";
