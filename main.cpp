@@ -92,7 +92,6 @@ int main(int argc, char** argv) {
 	_TEcollision += end[i].getCollision();	
 	_Tdelay += end[i].getDelayTime();
     }
-    cerr << "_Taccess = " << _Taccess << endl;
     cerr << "===Analysis===\n";
     cerr << "Total success number : " << _goodEnd << endl
 	 << "Total collision (counted by preambles) : " << collision_time << endl

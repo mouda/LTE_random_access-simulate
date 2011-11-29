@@ -21,19 +21,38 @@ void lineParsing (int argc, char** argv) {
         showHelp();
         exit(0);
       }
-      else if (!strcmp(argv[i], "-end"))
+      else if (!strcmp(argv[i], "-end")) {
         lte::EndNum = atoi(argv[++i]);
-      else if (!strcmp(argv[i], "-rand"))
+	cerr << "EndNum = " << lte::EndNum << endl;
+      }
+      else if (!strcmp(argv[i], "-rand")) {
         lte::RandomBackoffIndex = atoi(argv[++i]);
+	cerr << "Random Backoff Index = " << lte::RandomBackoffIndex << endl;
+      }
       else if (!strcmp(argv[i], "-type")) {
-        if (!strcmp(argv[++i], "uniform"))
+        if (!strcmp(argv[++i], "uniform")) {
           lte::traffic_type = uniform_start;
-        else if (!strcmp(argv[i], "beta"))
+	  cerr << "traffic type = " << "uniform\n";
+	}
+        else if (!strcmp(argv[i], "beta")) {
           lte::traffic_type = beta_start;
+	  cerr << "traffic type = " << "beta\n";
+	}
         else {
           cerr << "false traffic type " << argv[i] << endl;
           exit(1);
         }
+      } 
+      else if (!strcmp(argv[i], "-max")) {
+	lte::MAX = atoi(argv[++i]);
+	cerr << "limit of retransmition = " << lte::MAX << endl;
+      }
+      else if (!strcmp(argv[i], "-pre")) {
+	double part = atoi(argv[++i]);
+	if ((part >= 1) && (part <= 10)) {
+	    lte::preambleNum = 54 * part / 10;
+	    cerr << "Num. of preamble for machine = " << lte::preambleNum <<endl;
+	}
       }
       else {
         cerr << "false argument " << argv[i] << endl;
