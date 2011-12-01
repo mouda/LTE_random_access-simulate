@@ -49,9 +49,10 @@ void lineParsing (int argc, char** argv) {
       }
       else if (!strcmp(argv[i], "-pre")) {
 	double part = atoi(argv[++i]);
-	if ((part >= 1) && (part <= 10)) {
-	    lte::preambleNum = 54 * part / 10;
-	    cerr << "Num. of preamble for machine = \t" << lte::preambleNum <<endl;
+	if ((part >= 1) && (part <= 54)) {
+	    lte::preambleNum = part;
+	    cerr << "Num. of preamble for machine = \t" 
+              << lte::preambleNum <<endl;
 	}
       }
       else {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 index=0;
-simulateTimes=15;
+simulateTimes=30;
 endNumber=100;
 nameForEndEvent="resultEnd_";
 nameForEndReport="reportEnd_";
@@ -24,5 +24,5 @@ do
   ReportFileName=${dirName}'/'${nameForEndReport}${parameter}${suffix};
   echo "==================== End number $parameter ======================";
   echo "EventFileName: $EventFileName";
-  ./simulate -end $parameter -rand 20 -type beta -max 10 -pre 10 >> ${EventFileName} 2>> ${ReportFileName};
+  ./simulate -end $parameter -rand 1 -type beta -max 10 -pre 10 >> ${EventFileName} 2>> ${ReportFileName};
 done
